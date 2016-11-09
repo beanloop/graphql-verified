@@ -1,0 +1,34 @@
+{
+  "name": "graphql-verified",
+  "version": "0.6.0",
+  "description": "",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tscomp build",
+    "watch": "tscomp watch",
+    "test": "tscomp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/beanloop/graphql-verified.git"
+  },
+  "author": "Beanloop AB",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/beanloop/graphql-verified/issues"
+  },
+  "homepage": "https://github.com/beanloop/graphql-verified#README",
+  "dependencies": {
+    "@types/joi": "^9.0.31",
+    "graphql": "^0.7.2",
+    "graphql-rule": "^0.0.19",
+    "jest": "15",
+    "joi": "^9.0.4",
+    "typed-graphql": "^1.0.1"
+  },
+  "devDependencies": {
+    "tscomp": "^0.5.0"
+  }
+}
