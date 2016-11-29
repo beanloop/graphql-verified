@@ -8,7 +8,8 @@
   },
   "include": [
     "src/**/*",
-    "typings/**/*"
+    "typings/**/*",
+    "node_modules/@types/jest/**/*"
   ],
   "compileOnSave": false,
   "buildOnSave": false,
