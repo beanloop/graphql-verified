@@ -6,10 +6,10 @@ import {
 } from 'graphql'
 import graphqlRule from 'graphql-rule'
 
-import {BuiltTypeDefinition, TypeDefinition} from './entities'
+import {AccessError, BuiltTypeDefinition, TypeDefinition} from './entities'
 import {isQuery, isScalarType, isBuiltType} from './graphql-helpers'
 import {wrapRule, failedSymbol} from './rule-helpers'
-import {buildQuery, AccessError} from './index'
+import {buildQuery} from './build-query'
 
 export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition<T> {
   if (definition.readRules === undefined)

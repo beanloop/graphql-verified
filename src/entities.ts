@@ -1,10 +1,11 @@
-/// <reference types="typed-graphql" />
 import {
   GraphQLInputType,
   GraphQLOutputType,
   GraphQLType,
 } from 'graphql'
 import {ModelAccessor, ModelClass, Rule} from 'graphql-rule'
+
+export class AccessError extends Error {}
 
 export type Type = GraphQLType | BuiltTypeDefinition<any>
 
