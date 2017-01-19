@@ -29,7 +29,7 @@ export function buildQueries(queries: {[name: string]: Query}): GraphQLFieldConf
 
 export function buildQuery(name: string, query: Query): GraphQLFieldConfig {
   const args = Object.assign({}, query.args)
-  const {builtType, graphQLType} = getType(query)
+  const {builtType, graphQLType} = getType(query.type)
 
   if (query.validate === undefined && query.resolve.length > 1)
     throw Error(`validate is not specifed for query ${name}, set to false to disable`)

@@ -19,14 +19,14 @@ export function buildMutations(
 export function buildMutation(name: string, query: Mutation, options: MutationOptions): GraphQLFieldConfig {
   const args = Object.assign({}, query.args)
   const argTypes = {}
-  Object.entries(args).forEach(([name, type]) => {
+  Object.entries(args).forEach(([name, {type}]) => {
     const {graphQLInputType, builtType} = getType(type)
     if (builtType) {
       args[name] = {type: graphQLInputType}
       argTypes[name] = builtType
     }
   })
-  const {builtType, graphQLType} = getType(query)
+  const {builtType, graphQLType} = getType(query.type)
 
   if (query.validate === undefined)
     throw Error(`validate is not specifed for mutation ${name}, set to false to disable`)
