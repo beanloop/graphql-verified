@@ -123,7 +123,7 @@ export function joiToArgs(args: Object, joiSchema: any, type) {
 }
 
 /**
- * validate [object] agains the joi [schema]
+ * validate [object] against the joi [schema]
  */
 export function joiValidate(object, schema) {
   return new Promise((resolve, reject) => {

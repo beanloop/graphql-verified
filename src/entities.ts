@@ -42,13 +42,13 @@ export interface BuiltTypeDefinition<T> extends TypeDefinition<T> {
 }
 
 export interface Query {
-  validate?: any // joi.ObjectSchema
-  // resolve: (source: any, args: any, context: any, info: GraphQLResolveInfo) => any
-  resolve: (source: any, args: any, context: any, info: any) => any
-
   type: Type|[Type],
   description?: string,
+  validate?: any // joi.ObjectSchema
   args?: {[name: string]: any},
+
+  // resolve: (source: any, args: any, context: any, info: GraphQLResolveInfo) => any
+  resolve: (source: any, args: any, context: any, info: any) => any
 }
 
 export type MutationOptions = {

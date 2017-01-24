@@ -62,6 +62,10 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
           field = field()
         }
 
+        if (!field.type) {
+          throw Error(`Type is ${field.type} for field ${definition.name}.${prop}`)
+        }
+
         if (isQuery(field)) {
           let wrappedQuery = buildQuery(prop, field)
 
