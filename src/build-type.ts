@@ -7,7 +7,7 @@ import {
 import graphqlRule from 'graphql-rule'
 
 import {AccessError, BuiltTypeDefinition, TypeDefinition} from './entities'
-import {isQuery, isScalarType, isBuiltType} from './graphql-helpers'
+import {isQuery, isScalarType, isBuiltType, getType} from './graphql-helpers'
 import {wrapRule, failedSymbol} from './rule-helpers'
 import {buildQuery} from './build-query'
 
@@ -38,15 +38,15 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
       if (definition.readRules && definition.readRules[prop] !== undefined) {
         readRules[prop] = definition.readRules[prop]
       }
+    }
 
-      if (isScalarType(field.type) || field.type['ofType'] && isScalarType(field.type['ofType'])) {
-        inputFields[prop] = field
-      } else if (isBuiltType(field.type)) {
-        inputFields[prop] = {
-          type: field.type.graphQLInputType,
-          name: field.name,
-          description: field.description,
-        }
+    if (field.isInput || !(isQuery(field) || typeof field === 'function')) {
+      const type = getType(field.type)
+
+      inputFields[prop] = {
+        type: type.graphQLInputType,
+        name: field['name'],
+        description: field.description,
       }
     }
   })
@@ -83,7 +83,13 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
 
           wrappedFields[prop] = wrappedQuery
         } else {
-          wrappedFields[prop] = field
+          const type = getType(field.type)
+
+          wrappedFields[prop] = {
+            type: type.graphQLType,
+            name: field['name'],
+            description: field.description,
+          }
         }
       })
 

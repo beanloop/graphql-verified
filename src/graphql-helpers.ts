@@ -11,7 +11,7 @@ import {
   GraphQLScalarType,
 } from 'graphql'
 import * as joi from 'joi'
-import {BuiltTypeDefinition, Query} from './entities'
+import {BuiltTypeDefinition, Query, Type} from './entities'
 
 /**
  * Typecheck to verify that [field] is a [Query]
@@ -37,13 +37,15 @@ export function isScalarType(type): type is GraphQLScalarType {
 /**
  * Get a GraphQL input and output type, and (if possible) the builtType from a query
  */
-export function getType(query: Query) {
-  // : {builtType?: BuiltTypeDefinition<any>, graphQLType: GraphQLOutputType, graphQLInputType: GraphQLInputType}
-  const isArray = Array.isArray(query.type)
-  let type =
+export function getType(type: Type|[Type]): {builtType?: BuiltTypeDefinition<any>, graphQLType: GraphQLOutputType, graphQLInputType: GraphQLInputType} {
+  type = type instanceof GraphQLList
+    ? [type.ofType]
+    : type
+  const isArray = Array.isArray(type)
+  type =
     isArray
-      ? query.type[0]
-      : query.type
+      ? type[0]
+      : type
 
   let builtType: BuiltTypeDefinition<any>
   let graphQLType: GraphQLOutputType
