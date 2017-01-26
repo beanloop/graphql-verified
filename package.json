@@ -1,6 +1,6 @@
 {
   "name": "graphql-verified",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
@@ -29,6 +29,6 @@
   },
   "devDependencies": {
     "@types/jest": "^16.0.0",
-    "tscomp": "^0.7.0"
+    "tscomp": "^0.8.0"
   }
 }
