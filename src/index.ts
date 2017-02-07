@@ -27,10 +27,19 @@ import {
   applyReadRules,
   applyWriteRules,
   failedSymbol,
-  wrapRule,
+  isOwnerOf,
 } from './rule-helpers'
 import {buildType} from './build-type'
 import {buildMutation, buildMutations} from './build-mutation'
 import {buildQuery, buildQueries} from './build-query'
 
-export {AccessError, buildType, buildMutation, buildMutations, buildQuery, buildQueries, failedSymbol}
+export {
+  AccessError, 
+  buildType, 
+  buildMutation, 
+  buildMutations, 
+  buildQuery, 
+  buildQueries, 
+  failedSymbol,
+  isOwnerOf,
+}

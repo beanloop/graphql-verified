@@ -7,7 +7,7 @@ export const failedSymbol = Symbol('failed')
 /**
  * Wraps a graphql-rule rule to return {[failedSymbol]: originalValue} on fail
  */
-export function wrapRule(rule: Rule<any>, defaultReadRule?: Rule<any>) {
+export function wrapRule(rule: Rule<any>) {
   let userReadFail
   if (typeof rule === 'object') {
     userReadFail = rule.readFail
@@ -23,14 +23,6 @@ export function wrapRule(rule: Rule<any>, defaultReadRule?: Rule<any>) {
       }
       else if (userReadFail !== undefined) {
         failValue = userReadFail
-      }
-      else if (typeof defaultReadRule === 'object') {
-        if (typeof defaultReadRule.readFail === 'function') {
-          failValue = defaultReadRule.readFail(model, key)
-        }
-        else if (defaultReadRule.readFail !== undefined) {
-          failValue = defaultReadRule.readFail
-        }
       }
       return {[failedSymbol]: failValue}
     },
@@ -129,4 +121,12 @@ export async function applyWriteRules(
     return validatedObject
   }
   return object
+}
+
+/** 
+ * Sets isOwner if the parent type of typeName isOwner 
+ */ 
+export const isOwnerOf = typeName => model => {  
+  const parent = model.$parentOfType(`${typeName}_Read`)  
+  return parent && parent.$props.isOwner 
 }
