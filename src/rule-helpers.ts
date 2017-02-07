@@ -48,7 +48,7 @@ export const applyRules = (
 
     if (!canRead) {
       return defaultRule
-        ? value(defaultRule, model)
+        ? (defaultRule.readFail ? value(defaultRule.readFail, model) : value(defaultRule, model))
         : null
     }
   }
