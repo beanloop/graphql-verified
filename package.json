@@ -29,6 +29,6 @@
   },
   "devDependencies": {
     "@types/jest": "^16.0.0",
-    "tscomp": "^0.7.0"
+    "tscomp": "^0.8.0"
   }
 }
