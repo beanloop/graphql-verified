@@ -13,7 +13,7 @@ export function wrapRule(rule: Rule<any>) {
     userReadFail = rule.readFail
     rule = rule.read
   }
-
+  
   return {
     read: rule === undefined ? false : rule,
     readFail(model, key) {
@@ -74,7 +74,8 @@ export async function applyWriteRules(
   selfWrite: Rule<any>,
   defaultWriteRule: Rule<any>,
   argTypes: {[name: string]: BuiltTypeDefinition<any>},
-  object, parent, context) {
+  object, parent, context,
+) {
   if (object && writeRuleModelClass) {
 
     let writeModel = await applyRules(
@@ -99,7 +100,7 @@ export async function applyWriteRules(
               argTypes[key].defaultWriteRule,
               argTypes,
               valueToSet,
-              parent,
+              /* parent */ writeModel,
               context,
             )))
           } else {
@@ -109,7 +110,7 @@ export async function applyWriteRules(
               argTypes[key].defaultWriteRule,
               argTypes,
               valueToSet,
-              parent,
+              /* parent */ writeModel,
               context,
             )
           }
