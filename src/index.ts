@@ -1,12 +1,15 @@
 /// <reference types="typed-graphql" />
 
-import graphqlRule from 'graphql-rule'
 import {
   GraphQLFieldConfig,
   GraphQLFieldConfigMap,
   GraphQLInputObjectType,
   GraphQLObjectType,
 } from 'graphql'
+import graphqlRule from 'graphql-rule'
+import {buildMutation, buildMutations} from './build-mutation'
+import {buildQueries, buildQuery} from './build-query'
+import {buildType} from './build-type'
 import {
   AccessError,
   BuiltTypeDefinition,
@@ -29,17 +32,14 @@ import {
   failedSymbol,
   isOwnerOf,
 } from './rule-helpers'
-import {buildType} from './build-type'
-import {buildMutation, buildMutations} from './build-mutation'
-import {buildQuery, buildQueries} from './build-query'
 
 export {
-  AccessError, 
-  buildType, 
-  buildMutation, 
-  buildMutations, 
-  buildQuery, 
-  buildQueries, 
+  AccessError,
+  buildType,
+  buildMutation,
+  buildMutations,
+  buildQuery,
+  buildQueries,
   failedSymbol,
   isOwnerOf,
 }

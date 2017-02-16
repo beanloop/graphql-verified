@@ -28,7 +28,9 @@
     "typed-graphql": "^1.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^16.0.0",
-    "tscomp": "^0.8.0"
+    "@types/jest": "^18.1.1",
+    "tscomp": "^0.8.0",
+    "tslint": "^4.4.2",
+    "tslint-config-beanloop": "^0.1.0"
   }
 }

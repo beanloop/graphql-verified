@@ -1,7 +1,7 @@
-import {GraphQLFieldConfigMap, GraphQLFieldConfig} from 'graphql'
+import {GraphQLFieldConfig, GraphQLFieldConfigMap} from 'graphql'
 import graphqlRule from 'graphql-rule'
 
-import {Mutation, MutationOptions, AccessError} from './entities'
+import {AccessError, Mutation, MutationOptions} from './entities'
 import {getType, joiToArgs, joiValidate} from './graphql-helpers'
 import {applyReadRules, applyWriteRules} from './rule-helpers'
 

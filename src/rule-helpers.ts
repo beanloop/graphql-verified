@@ -13,7 +13,7 @@ export function wrapRule(rule: Rule<any>) {
     userReadFail = rule.readFail
     rule = rule.read
   }
-  
+
   return {
     read: rule === undefined ? false : rule,
     readFail(model, key) {
@@ -48,7 +48,7 @@ export const applyRules = (
 
     if (!canRead) {
       return defaultRule
-        ? (defaultRule.readFail ? value(defaultRule.readFail, model) : value(defaultRule, model))
+        ? (defaultRule['readFail'] ? value(defaultRule['readFail'], model) : value(defaultRule, model))
         : null
     }
   }
@@ -124,10 +124,11 @@ export async function applyWriteRules(
   return object
 }
 
-/** 
- * Sets isOwner if the parent type of typeName isOwner 
- */ 
-export const isOwnerOf = typeName => model => {  
-  const parent = model.$parentOfType(`${typeName}_Read`)  
-  return parent && parent.$props.isOwner 
+/**
+ * Sets isOwner if the parent type of typeName isOwner
+ */
+export const isOwnerOf = typeName => model => {
+  if (!model.$parent) return false
+  const parent = model.$parentOfType(`${typeName}_Read`)
+  return !!(parent && parent.$props.isOwner )
 }
