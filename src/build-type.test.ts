@@ -1,15 +1,14 @@
 /// <reference types="jest" />
-import 'regenerator-runtime/runtime'
 import {
-  graphql,
   GraphQLList,
   GraphQLObjectType,
-  GraphQLString,
   GraphQLSchema,
+  GraphQLString,
+  graphql,
 } from 'graphql'
-
-import {buildType} from './build-type'
+import 'regenerator-runtime/runtime'
 import {buildQuery} from './build-query'
+import {buildType} from './build-type'
 
 describe('build-type', () => {
   describe('buildType', () => {
@@ -32,7 +31,7 @@ describe('build-type', () => {
         writeRules: false,
         readRules: false,
       })
-      expect(builtType.graphQLInputType['_typeConfig'].fields.targetGroups).not.toBeUndefined()
+      expect(builtType.graphQLInputType['_typeConfig'].fields().targetGroups).not.toBeUndefined()
     })
 
     it('should support promise results in rules', () => {

@@ -9,8 +9,9 @@ export class AccessError extends Error {}
 
 export type Type = GraphQLType | BuiltTypeDefinition<any>
 
+export type Field = (Query|{type: GraphQLType, name?: string, description?: string}) & {isInput?: boolean}
 export type FieldMap = {
-  [name: string]: (Query|{type: GraphQLType, name?: string, description?: string}) & {isInput?: boolean}
+  [name: string]: (() => Field)|Field
 }
 
 export interface TypeDefinition<T> {

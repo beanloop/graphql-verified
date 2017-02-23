@@ -7,7 +7,7 @@ import {
 import graphqlRule from 'graphql-rule'
 
 import {buildQuery} from './build-query'
-import {AccessError, BuiltTypeDefinition, TypeDefinition} from './entities'
+import {AccessError, BuiltTypeDefinition, FieldMap, TypeDefinition} from './entities'
 import {getType, isBuiltType, isQuery, isScalarType} from './graphql-helpers'
 import {failedSymbol, wrapRule} from './rule-helpers'
 
@@ -22,7 +22,7 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
     typeof definition.fields === 'function'
       ? definition.fields()
       : definition.fields
-  const inputFields = {}
+  const inputFields = {} as FieldMap
 
   const readRules = {}
 
@@ -40,7 +40,10 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
       }
     }
 
-    if (field.isInput || !(isQuery(field) || typeof field === 'function')) {
+    if (typeof field === 'function') {
+      inputFields[prop] = field
+    }
+    else if (field.isInput || !(isQuery(field))) {
       const type = getType(field.type)
 
       inputFields[prop] = {
@@ -49,6 +52,7 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
         description: field.description,
       }
     }
+
   })
 
   const graphQLType = new GraphQLObjectType({
@@ -100,7 +104,27 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
   const graphQLInputType = new GraphQLInputObjectType({
     name: `${definition.name}Input`,
     description: definition.description,
-    fields: inputFields,
+    fields: () => {
+      const wrappedFields = {}
+      Object.entries(inputFields).forEach(([prop, field]) => {
+        if (typeof field === 'function') {
+          field = field()
+          if (field.isInput || !(isQuery(field))) {
+            const type = getType(field.type)
+
+            wrappedFields[prop] = {
+              type: type.graphQLInputType,
+              name: field['name'],
+              description: field.description,
+            }
+          }
+        }
+        else {
+          wrappedFields[prop] = field
+        }
+      })
+      return wrappedFields
+    },
   })
 
   const readRuleModelClass = definition.readRules && graphqlRule.create({
