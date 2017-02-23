@@ -76,7 +76,7 @@ export function buildType<T>(definition: TypeDefinition<T>): BuiltTypeDefinition
           const innerResolve = wrappedQuery.resolve
           async function resolve(source, args, context, info) {
             if (definition.readRules) {
-              let value = source[prop]
+              let value = await source[prop]
               if (value && (failedSymbol in value)) {
                 return value[failedSymbol]
               }

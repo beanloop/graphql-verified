@@ -73,5 +73,48 @@ describe('build-type', () => {
           expect(result).toEqual({data: {getProp: {prop: null}}})
         })
     })
+
+    it('should support promise results in rules for function fields', () => {
+      const builtType = buildType({
+        name: 'Type2',
+        fields: {
+          prop: () => ({
+            type: GraphQLString,
+            resolve: _ => 'Hello function'
+          }),
+        },
+        writeRules: false,
+        readRules: {
+          prop: () => Promise.resolve(false)
+        },
+      })
+
+      const query = buildQuery('getProp', {
+        type: builtType,
+        resolve() {
+          return 'Hello'
+        }
+      })
+
+      const QueryType = new GraphQLObjectType({
+        name: 'Query',
+        fields: () => ({getProp: query}),
+      })
+
+      const schema = new GraphQLSchema({
+        query: QueryType,
+      })
+
+      return graphql(schema, `
+        query getProp {
+          getProp {
+            prop
+          }
+        }
+      `)
+        .then(result => {
+          expect(result).toEqual({data: {getProp: {prop: null}}})
+        })
+    })
   })
 })
