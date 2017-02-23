@@ -7,8 +7,8 @@ import {
   GraphQLList,
   GraphQLNonNull,
   GraphQLOutputType,
-  GraphQLString,
   GraphQLScalarType,
+  GraphQLString,
 } from 'graphql'
 import * as joi from 'joi'
 import {BuiltTypeDefinition, Query, Type} from './entities'

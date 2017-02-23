@@ -4,10 +4,13 @@ import {
   GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
+  GraphQLObjectType,
   GraphQLString,
 } from 'graphql'
+import {GraphQLType} from 'graphql'
 import * as joi from 'joi'
-import {isScalarType, joiToArgs, joiValidate} from './graphql-helpers'
+import {buildType} from './build-type'
+import {getType, isScalarType, joiToArgs, joiValidate} from './graphql-helpers'
 
 describe('graphql', () => {
   describe('graphql-helpers', () => {
@@ -17,6 +20,64 @@ describe('graphql', () => {
       })
       it('should not accept GraphQLList', () => {
         expect(isScalarType(new GraphQLList(GraphQLBoolean))).toBe(false)
+      })
+    })
+
+    describe('getType', () => {
+      it('should support graphql types', () => {
+        expect(getType(GraphQLBoolean)).toEqual({
+          buildType: undefined,
+          graphQLInputType: GraphQLBoolean,
+          graphQLType: GraphQLBoolean,
+        })
+      })
+
+      it('should support arrays of graphql types', () => {
+        expect(getType([GraphQLBoolean])).toEqual({
+          buildType: undefined,
+          graphQLInputType: new GraphQLList(GraphQLBoolean),
+          graphQLType: new GraphQLList(GraphQLBoolean),
+        })
+      })
+
+      it('should support graphql lists of graphql types', () => {
+        expect(getType(new GraphQLList(GraphQLBoolean))).toEqual({
+          buildType: undefined,
+          graphQLInputType: new GraphQLList(GraphQLBoolean),
+          graphQLType: new GraphQLList(GraphQLBoolean),
+        })
+      })
+
+      it('should support built types', () => {
+        const builtType = buildType({
+          name: 'Type',
+          fields: {
+            field: {type: GraphQLBoolean},
+          },
+          readRules: false,
+          writeRules: false,
+        })
+        expect(getType(builtType)).toEqual({
+          builtType,
+          graphQLInputType: builtType.graphQLInputType,
+          graphQLType: builtType.graphQLType,
+        })
+      })
+
+      it('should support arrays of built types', () => {
+        const builtType = buildType({
+          name: 'Type',
+          fields: {
+            field: {type: GraphQLBoolean},
+          },
+          readRules: false,
+          writeRules: false,
+        })
+        expect(getType([builtType])).toEqual({
+          builtType,
+          graphQLInputType: new GraphQLList(builtType.graphQLInputType),
+          graphQLType: new GraphQLList(builtType.graphQLType),
+        })
       })
     })
 

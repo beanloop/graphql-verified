@@ -43,8 +43,8 @@ declare module 'graphql-rule' {
     base?: ModelClass<any>
     props?: {
       [name: string]: (model: ModelAccessor<T>) => any
-    },
-    defaultRule?: Rule<T>,
+    }
+    defaultRule?: Rule<T>
     rules?: {
       [name: string]: Rule<T>
     }

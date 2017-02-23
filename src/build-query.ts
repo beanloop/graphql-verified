@@ -10,7 +10,7 @@ import {applyReadRules} from './rule-helpers'
  *
  * Example:
  *
- *    const queries = buildQueries(GraphQLString, {
+ *    const queries = buildQueries({
  *      getGreeting: {
  *        validate: {
  *          name: joi.string().default('World'),
