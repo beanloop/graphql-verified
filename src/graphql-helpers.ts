@@ -63,14 +63,11 @@ export function getType(type: Type|[Type]): {builtType?: BuiltTypeDefinition<any
   }
 
   if (isArray) {
-    graphQLType =
-      isArray
-        ? new GraphQLList(graphQLType)
-        : graphQLType
-    graphQLInputType =
-      isArray
-        ? new GraphQLList(graphQLInputType)
-        : graphQLInputType
+    graphQLType = new GraphQLList(graphQLType)
+    graphQLInputType = new GraphQLList(graphQLInputType)
+  } else {
+    graphQLType = graphQLType
+    graphQLInputType = graphQLInputType
   }
 
   return {builtType, graphQLType, graphQLInputType}
@@ -93,7 +90,7 @@ Please use a manual override by specifying args with a graphql type.`
       type = GraphQLBoolean
       break
     case 'number':
-      type = (joiSchema._tests as any[]).some(test => test.name === 'integer')
+      type = (joiSchema._tests as Array<any>).some(test => test.name === 'integer')
         ? GraphQLInt
         : GraphQLFloat
       break
